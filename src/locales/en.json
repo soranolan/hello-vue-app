@@ -19,6 +19,7 @@
     "required": "is required",
     "max5": "cannot be longer than 5 characters",
     "max24": "cannot be longer than 24 characters",
+    "max120": "cannot be longer than 120 characters",
     "alphanumeric":"letters and/or numbers only"
   },
   "message": {
