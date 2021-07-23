@@ -1,0 +1,60 @@
+{
+  "language": "English",
+  "button": {
+    "add": "Add document",
+    "modify": "Modify by document id",
+    "remove": "Remove by document id",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
+  },
+  "option": {
+    "placeholder": "Please Select"
+  },
+  "sort": {
+    "label": "Sort",
+    "asc": "ASC",
+    "desc": "DESC"
+  },
+  "rules": {
+    "required": "is required",
+    "max5": "cannot be longer than 5 characters",
+    "max24": "cannot be longer than 24 characters",
+    "alphanumeric":"letters and/or numbers only"
+  },
+  "message": {
+    "error": "Oops, something went wrong"
+  },
+  "Home": {
+    "hello": "Welcome to My Vue.js App"
+  },
+  "App": {
+    "index": "Home",
+    "F02001": "About",
+    "F03001": "ApiMenu",
+    "F01001": "Signin",
+    "F01002": "Signup",
+    "footer": "Just For Pracitce"
+  },
+  "F01001": {
+    "hello": "Sign in"
+  },
+  "F01002": {
+    "hello": "Sign iup"
+  },
+  "F02001": {
+    "hello": "This is an about page"
+  },
+  "F03001": {
+    "findAll": "Find all by user id",
+    "findOne": "Find one by document id",
+    "documentId": "Document ID",
+    "creator": "Creator",
+    "title": "Title",
+    "content": "Content",
+    "expirationDate": "Expiration Date",
+    "sharedTo": "Shared To",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "userId": "User ID"
+  }
+}

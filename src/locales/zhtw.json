@@ -1,0 +1,60 @@
+{
+  "language": "繁體中文",
+  "button": {
+    "add": "新增",
+    "modify": "修改",
+    "remove": "刪除",
+    "confirm": "確認",
+    "cancel": "取消"
+  },
+  "option": {
+    "placeholder": "請選擇"
+  },
+  "sort": {
+    "label": "排序",
+    "asc": "由小到大",
+    "desc": "由大到小"
+  },
+  "rules": {
+    "required": "欄位必填",
+    "max5": "不得超過5個字",
+    "max24": "不得超過24個字",
+    "alphanumeric":"僅限英、數"
+  },
+  "message": {
+    "error": "丸子，發生錯誤"
+  },
+  "Home": {
+    "hello": "歡迎來到我的 Vue.js 專案"
+  },
+  "App": {
+    "index": "首頁",
+    "F02001": "關於",
+    "F03001": "功能",
+    "F01001": "登入",
+    "F01002": "註冊",
+    "footer": "練習用"
+  },
+  "F01001": {
+    "hello": "登入"
+  },
+  "F01002": {
+    "hello": "註冊"
+  },
+  "F02001": {
+    "hello": "這只是個空的簡介"
+  },
+  "F03001": {
+    "findAll": "依據使用者ID查詢多筆",
+    "findOne": "依據文件ID查詢單筆",
+    "documentId": "文件ID",
+    "creator": "由誰新增",
+    "title": "標題",
+    "content": "內容",
+    "expirationDate": "到期日",
+    "sharedTo": "分享給",
+    "createdAt": "新增日",
+    "updatedAt": "更新日",
+    "userId": "使用者ID"
+  }
+}
