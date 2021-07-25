@@ -19,7 +19,10 @@ function loadLocaleMessages() {
 }
 
 export default createI18n({
-  locale: process.env.VUE_APP_I18N_LOCALE || "English",
+  locale:
+    localStorage.getItem("language") ||
+    process.env.VUE_APP_I18N_LOCALE ||
+    "English",
   fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || "English",
   messages: loadLocaleMessages(),
 });

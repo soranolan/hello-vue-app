@@ -23,7 +23,7 @@
     <el-container>
       <el-header>
         <div>
-          <el-select v-model="$i18n.locale">
+          <el-select v-model="$i18n.locale" @change="setLanguage($i18n.locale)">
             <el-option
               v-for="locale in $i18n.availableLocales"
               :key="`locale-${locale}`"
@@ -53,6 +53,11 @@ export default defineComponent({
       activeIndex,
       handleSelect,
     };
+  },
+  methods: {
+    setLanguage(locale) {
+      localStorage.setItem("language", locale);
+    },
   },
 });
 </script>
