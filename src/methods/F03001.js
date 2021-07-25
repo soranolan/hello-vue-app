@@ -113,13 +113,15 @@ function addDocument() {
 
 function beforeModify() {
   let superThis = this;
-  if (superThis.targetRow.id.length == 0) {
+  let target = superThis.targetRow;
+  let id = target.id;
+  if (target.length == 0 || id.length == 0) {
     return;
   }
 
   let loadingInstance = ElLoading.service(this.ElLoadingConfig);
   axios
-    .get(superThis.targetRow.id)
+    .get(id)
     .then(function (response) {
       superThis.modifyForm = response.data;
       superThis.modifyVisible = true;
@@ -168,7 +170,9 @@ function modifyDocument() {
 
 function beforeRemove() {
   let superThis = this;
-  if (superThis.targetRow.id.length == 0) {
+  let target = superThis.targetRow;
+  let id = target.id;
+  if (target.length == 0 || id.length == 0) {
     return;
   }
   superThis.removeVisible = true;
