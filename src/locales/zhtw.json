@@ -20,10 +20,15 @@
     "max5": "不得超過5個字",
     "max24": "不得超過24個字",
     "max120": "不得超過120個字",
-    "alphanumeric":"僅限英、數"
+    "alphanumeric": "僅限英、數"
   },
   "message": {
-    "error": "丸子，發生錯誤"
+    "error": "丸子，發生錯誤",
+    "success": "成功"
+  },
+  "date": {
+    "tomorrow": "明天",
+    "nextweek": "下週"
   },
   "Home": {
     "hello": "歡迎來到我的 Vue.js 專案"

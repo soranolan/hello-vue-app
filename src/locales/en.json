@@ -20,10 +20,15 @@
     "max5": "cannot be longer than 5 characters",
     "max24": "cannot be longer than 24 characters",
     "max120": "cannot be longer than 120 characters",
-    "alphanumeric":"letters and/or numbers only"
+    "alphanumeric": "letters and/or numbers only"
   },
   "message": {
-    "error": "Oops, something went wrong"
+    "error": "Oops, something went wrong",
+    "success": "Success"
+  },
+  "date": {
+    "tomorrow": "Tomorrow",
+    "nextweek": "Next Week"
   },
   "Home": {
     "hello": "Welcome to My Vue.js App"

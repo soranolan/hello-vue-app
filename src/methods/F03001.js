@@ -1,41 +1,47 @@
 import axios from "axios";
-import moment from 'moment';
-import { ElLoading, ElMessage } from 'element-plus';
+import moment from "moment";
+import { ElLoading, ElMessage } from "element-plus";
 
 // validation block start =====================================================
-function validFindAllByUserId(findAllByUserIdFormRef) {
-  this.$refs[findAllByUserIdFormRef].validate((valid, field) => {
+function validFindAll(findAllRef) {
+  this.$refs[findAllRef].validate((valid) => {
     if (!valid) {
-      this.findAllByUserIdFormVisible = true;
       return false;
     }
-    this.findAllByUserIdFormVisible = false;
+    this.findAllVisible = false;
     this.findAllByUserId();
   });
 }
 
-function validfindOneByDocumentId(findOneByDocumentIdFormRef) {
-  this.$refs[findOneByDocumentIdFormRef].validate((valid, field) => {
+function validFindOne(findOneRef) {
+  this.$refs[findOneRef].validate((valid) => {
     if (!valid) {
-      this.findOneByDocumentIdFormVisible = true;
       return false;
     }
-    this.findOneByDocumentIdFormVisible = false;
+    this.findOneVisible = false;
     this.findOneByDocumentId();
   });
 }
 
-function validAddDocument(addDocumentFormRef) {
-  this.$refs[addDocumentFormRef].validate((valid, field) => {
+function validAddDocument(addRef) {
+  this.$refs[addRef].validate((valid) => {
     if (!valid) {
-      this.addDocumentFormVisible = true;
       return false;
     }
-    this.addDocumentFormVisible = false;
-    ElMessage.success('Success');
+    this.addVisible = false;
     this.addDocument();
   });
 }
+function validModifyDocument(modifyRef) {
+  this.$refs[modifyRef].validate((valid) => {
+    if (!valid) {
+      return false;
+    }
+    this.modifyVisible = false;
+    this.modifyDocument();
+  });
+}
+
 // validation block end =======================================================
 // button block start =========================================================
 function findAllByUserId() {
@@ -43,17 +49,16 @@ function findAllByUserId() {
   let loadingInstance = ElLoading.service(this.ElLoadingConfig);
 
   axios
-    .get("/" + superThis.findAllByUserIdFormModel.userId + "&" + superThis.buildQueryString(), {
-      baseURL: "http://localhost:8080/api/v1.0.0/todolist",
-    })
+    .get(superThis.findAllForm.userId + "&" + superThis.buildQueryString())
     .then(function (response) {
-      loadingInstance.close();
       superThis.tableData = response.data;
     })
     .catch(function (error) {
       console.log(error);
+      ElMessage.error(superThis.$t("message.error"));
+    })
+    .finally(function () {
       loadingInstance.close();
-      ElMessage.error(superThis.$t('message.error'));
     });
 }
 
@@ -63,69 +68,211 @@ function findOneByDocumentId() {
   let loadingInstance = ElLoading.service(this.ElLoadingConfig);
 
   axios
-    .get("/" + superThis.findOneByDocumentIdFormModel.documentId, {
-      baseURL: "http://localhost:8080/api/v1.0.0/todolist",
-    })
+    .get(superThis.findOneForm.documentId)
     .then(function (response) {
-      loadingInstance.close();
       monoData.push(response.data);
       superThis.tableData = monoData;
     })
     .catch(function (error) {
       console.log(error);
-      ElMessage.error(superThis.$t('message.error'));
+      ElMessage.error(superThis.$t("message.error"));
+    })
+    .finally(function () {
+      loadingInstance.close();
     });
 }
 
 function addDocument() {
-  
+  let superThis = this;
+  let loadingInstance = ElLoading.service(this.ElLoadingConfig);
+
+  axios
+    .post("/", {
+      creator: superThis.addForm.creator,
+      title: superThis.addForm.title,
+      content: superThis.addForm.content,
+      expirationDate: superThis.addForm.expirationDate,
+      sharedTo: superThis.addForm.sharedTo.split(","),
+    })
+    .then(function (response) {
+      ElMessage.success(superThis.$t("message.success"));
+      return response.data.id;
+    })
+    .then(function (id) {
+      superThis.findOneForm.documentId = id;
+      superThis.findOneByDocumentId();
+    })
+    .catch(function (error) {
+      console.log(error);
+      ElMessage.error(superThis.$t("message.error"));
+    })
+    .finally(function () {
+      loadingInstance.close();
+    });
+}
+
+function beforeModify() {
+  let superThis = this;
+  if (superThis.targetRow.id.length == 0) {
+    return;
+  }
+
+  let loadingInstance = ElLoading.service(this.ElLoadingConfig);
+  axios
+    .get(superThis.targetRow.id)
+    .then(function (response) {
+      superThis.modifyForm = response.data;
+      superThis.modifyVisible = true;
+    })
+    .catch(function (error) {
+      console.log(error);
+      ElMessage.error(superThis.$t("message.error"));
+    })
+    .finally(function () {
+      loadingInstance.close();
+    });
+}
+
+function modifyDocument() {
+  let superThis = this;
+  let loadingInstance = ElLoading.service(this.ElLoadingConfig);
+  let modifyShared = superThis.modifyForm.sharedTo;
+
+  axios
+    .put(superThis.targetRow.id, {
+      creator: superThis.modifyForm.creator,
+      title: superThis.modifyForm.title,
+      content: superThis.modifyForm.content,
+      expirationDate: superThis.modifyForm.expirationDate,
+      sharedTo:
+        typeof modifyShared === "string"
+          ? modifyShared.split(",")
+          : modifyShared,
+    })
+    .then(function (response) {
+      ElMessage.success(superThis.$t("message.success"));
+      return response.data.id;
+    })
+    .then(function (id) {
+      superThis.findOneForm.documentId = id;
+      superThis.findOneByDocumentId();
+    })
+    .catch(function (error) {
+      console.log(error);
+      ElMessage.error(superThis.$t("message.error"));
+    })
+    .finally(function () {
+      loadingInstance.close();
+    });
+}
+
+function beforeRemove() {
+  let superThis = this;
+  if (superThis.targetRow.id.length == 0) {
+    return;
+  }
+  superThis.removeVisible = true;
+}
+
+function removeDocument() {
+  let superThis = this;
+  let loadingInstance = ElLoading.service(this.ElLoadingConfig);
+
+  axios
+    .delete(superThis.targetRow.id)
+    .then(function () {
+      ElMessage.success(superThis.$t("message.success"));
+      return superThis.targetRow.creator;
+    })
+    .then(function (id) {
+      superThis.findAllForm.userId = id;
+      superThis.findAllByUserId();
+    })
+    .catch(function (error) {
+      console.log(error);
+      ElMessage.error(superThis.$t("message.error"));
+    })
+    .finally(function () {
+      loadingInstance.close();
+      superThis.removeVisible = false;
+    });
 }
 // button block end ===========================================================
 // helper block start =========================================================
 function buildQueryString() {
-  let sortBy1 = this.findAllByUserIdFormModel.sortBy1;
-  let sortBy2 = this.findAllByUserIdFormModel.sortBy2;
-  let sortBy3 = this.findAllByUserIdFormModel.sortBy3;
+  let sortBy1 = this.findAllForm.sortBy1;
+  let sortBy2 = this.findAllForm.sortBy2;
+  let sortBy3 = this.findAllForm.sortBy3;
 
-  let direct1 = this.findAllByUserIdFormModel.sortDirection1;
-  let direct2 = this.findAllByUserIdFormModel.sortDirection2;
-  let direct3 = this.findAllByUserIdFormModel.sortDirection3;
-  direct1 = (typeof direct1 === 'undefined') ? 'ASC' : direct1;
-  direct2 = (typeof direct2 === 'undefined') ? 'ASC' : direct2;
-  direct3 = (typeof direct3 === 'undefined') ? 'ASC' : direct3;
+  let direct1 = this.findAllForm.sortDirection1;
+  let direct2 = this.findAllForm.sortDirection2;
+  let direct3 = this.findAllForm.sortDirection3;
+  direct1 = typeof direct1 === "undefined" ? "ASC" : direct1;
+  direct2 = typeof direct2 === "undefined" ? "ASC" : direct2;
+  direct3 = typeof direct3 === "undefined" ? "ASC" : direct3;
 
-  let sort1 = (typeof sortBy1 === 'undefined' || sortBy1.length == 0) ? '' : sortBy1 + ":" + direct1;
-  let sort2 = (typeof sortBy2 === 'undefined' || sortBy2.length == 0) ? '' : sortBy2 + ":" + direct2;
-  let sort3 = (typeof sortBy3 === 'undefined' || sortBy3.length == 0) ? '' : sortBy3 + ":" + direct3;
+  let sort1 =
+    typeof sortBy1 === "undefined" || sortBy1.length == 0
+      ? ""
+      : sortBy1 + ":" + direct1;
+  let sort2 =
+    typeof sortBy2 === "undefined" || sortBy2.length == 0
+      ? ""
+      : sortBy2 + ":" + direct2;
+  let sort3 =
+    typeof sortBy3 === "undefined" || sortBy3.length == 0
+      ? ""
+      : sortBy3 + ":" + direct3;
 
   let ary = [sort1, sort2, sort3];
-  let queryString = ary.filter(str => str.length > 0).join(',');
+  let queryString = ary.filter((str) => str.length > 0).join(",");
   return queryString;
 }
 
-function dateFormat(row, column, cellValue, index) {
-  return moment(cellValue).format("YYYY-MM-DD HH:mm:ss");
+function dateFormat(row, column) {
+  let value = row[column.property];
+  let formatter = moment(new Date(value));
+  if (formatter.isValid()) {
+    return formatter.format("YYYY-MM-DD HH:mm:ss");
+  }
+  return value;
 }
 
 function setDisable(value, methodIndex) {
   // while change option, set previous to default 0
-  let prev = this.findAllByUserIdFormModel.sortByOptions.find(opt => opt.methodIndex === methodIndex);
-  if (typeof prev !== 'undefined') {
+  let prev = this.findAllForm.sortByOptions.find(
+    (opt) => opt.methodIndex === methodIndex
+  );
+  if (typeof prev !== "undefined") {
     prev.disabled = false;
     prev.methodIndex = 0;
   }
 
   // return while using default clear 'x' icon
-  if (value.length == 0) { return false; }
+  if (value.length == 0) {
+    return false;
+  }
 
   // set selected option to method index
-  let target = this.findAllByUserIdFormModel.sortByOptions.find(opt => opt.value === value);
+  let target = this.findAllForm.sortByOptions.find(
+    (opt) => opt.value === value
+  );
   target.disabled = true;
   target.methodIndex = methodIndex;
 }
 
-function handleCurrentChange(currentRow, oldCurrentRow) {
-  this.targetRow = (currentRow == null) ? "" : currentRow.id;
+function handleCurrentChange(currentRow) {
+  this.targetRow = currentRow == null ? "" : currentRow;
+}
+
+function disabledDate(time) {
+  return time.getTime() < Date.now();
+}
+
+function setShortcuts(time) {
+  let date = new Date();
+  date.setTime(date.getTime() + time);
+  return date;
 }
 // helper block end ===========================================================
 // data block start ===========================================================
@@ -134,57 +281,83 @@ function getApiMenuData() {
     targetRow: "",
     tableData: [],
     ElLoadingConfig: {
-      target: ".apiresult"
+      target: ".apiresult",
     },
+    shortcuts: [
+      {
+        text: this.$t("date.tomorrow"),
+        value: setShortcuts(1000 * 60 * 60 * 24),
+      },
+      {
+        text: this.$t("date.nextweek"),
+        value: setShortcuts(1000 * 60 * 60 * 24 * 7),
+      },
+    ],
     rules: {
       userId: [
-        { required: true, trigger: 'blur', message: this.$t('rules.required') },
-        { max: 5, trigger: 'blur', message: this.$t('rules.max5') },
-        { pattern: new RegExp(/^[a-zA-Z0-9]*$/), trigger: 'blur', message: this.$t('rules.alphanumeric') }
+        { required: true, trigger: "blur", message: this.$t("rules.required") },
+        { max: 5, trigger: "blur", message: this.$t("rules.max5") },
+        {
+          pattern: new RegExp(/^[a-zA-Z0-9]*$/),
+          trigger: "blur",
+          message: this.$t("rules.alphanumeric"),
+        },
       ],
       documentId: [
-        { required: true, trigger: 'blur', message: this.$t('rules.required') },
-        { max: 24, trigger: 'blur', message: this.$t('rules.max24') },
-        { pattern: new RegExp(/^[a-zA-Z0-9]*$/), trigger: 'blur', message: this.$t('rules.alphanumeric') }
+        { required: true, trigger: "blur", message: this.$t("rules.required") },
+        { max: 24, trigger: "blur", message: this.$t("rules.max24") },
+        {
+          pattern: new RegExp(/^[a-zA-Z0-9]*$/),
+          trigger: "blur",
+          message: this.$t("rules.alphanumeric"),
+        },
       ],
       creator: [
-        { required: true, trigger: 'blur', message: this.$t('rules.required') },
-        { max: 5, trigger: 'blur', message: this.$t('rules.max5') },
-        { pattern: new RegExp(/^[a-zA-Z0-9]*$/), trigger: 'blur', message: this.$t('rules.alphanumeric') }
+        { required: true, trigger: "blur", message: this.$t("rules.required") },
+        { max: 5, trigger: "blur", message: this.$t("rules.max5") },
+        {
+          pattern: new RegExp(/^[a-zA-Z0-9]*$/),
+          trigger: "blur",
+          message: this.$t("rules.alphanumeric"),
+        },
       ],
-      title:[
-        { required: true, trigger: 'blur', message: this.$t('rules.required') },
-        { max: 24, trigger: 'blur', message: this.$t('rules.max24') },
+      title: [
+        { required: true, trigger: "blur", message: this.$t("rules.required") },
+        { max: 24, trigger: "blur", message: this.$t("rules.max24") },
       ],
       content: [
-        { required: true, trigger: 'blur', message: this.$t('rules.required') },
-        { max: 120, trigger: 'blur', message: this.$t('rules.max120') },
-      ]
+        { required: true, trigger: "blur", message: this.$t("rules.required") },
+        { max: 120, trigger: "blur", message: this.$t("rules.max120") },
+      ],
     },
-    findAllByUserIdFormVisible: false,
-    findAllByUserIdFormModel: {
+    findAllVisible: false,
+    findOneVisible: false,
+    addVisible: false,
+    modifyVisible: false,
+    removeVisible: false,
+    findAllForm: {
       userId: "",
       sortBy1: "",
       sortBy2: "",
       sortBy3: "",
       sortByOptions: [
         {
-          label: this.$t('F03001.createdAt'),
+          label: this.$t("F03001.createdAt"),
           value: "createdAt",
           disabled: false,
-          methodIndex: 0
+          methodIndex: 0,
         },
         {
-          label: this.$t('F03001.updatedAt'),
+          label: this.$t("F03001.updatedAt"),
           value: "updatedAt",
           disabled: false,
-          methodIndex: 0
+          methodIndex: 0,
         },
         {
-          label: this.$t('F03001.expirationDate'),
+          label: this.$t("F03001.expirationDate"),
           value: "expirationDate",
           disabled: false,
-          methodIndex: 0
+          methodIndex: 0,
         },
       ],
       sortDirection1: "",
@@ -192,46 +365,58 @@ function getApiMenuData() {
       sortDirection3: "",
       sortDirectionOptions: [
         {
-          label: this.$t('sort.asc'),
-          value: "ASC"
+          label: this.$t("sort.asc"),
+          value: "ASC",
         },
         {
-          label: this.$t('sort.desc'),
-          value: "DESC"
+          label: this.$t("sort.desc"),
+          value: "DESC",
         },
       ],
     },
-    findOneByDocumentIdFormVisible: false,
-    findOneByDocumentIdFormModel: {
-      documentId: ""
+    findOneForm: {
+      documentId: "",
     },
-    addDocumentFormVisible: false,
-    addDocumentFormModel: {
+    addForm: {
       creator: "",
       title: "",
       content: "",
       expirationDate: "",
-      sharedTo: ""
-    }
+      sharedTo: "",
+    },
+    modifyForm: {
+      title: "",
+      content: "",
+      expirationDate: "",
+      sharedTo: "",
+    },
   };
 }
 // data block end =============================================================
 
 export default {
-  name: 'F03001JS',
+  name: "F03001JS",
   methods: {
-    validFindAllByUserId,
-    validfindOneByDocumentId,
+    validFindAll,
+    validFindOne,
     validAddDocument,
+    validModifyDocument,
 
     findAllByUserId,
     findOneByDocumentId,
+    addDocument,
+    beforeModify,
+    modifyDocument,
+    beforeRemove,
+    removeDocument,
 
     buildQueryString,
     dateFormat,
     setDisable,
+    disabledDate,
+    setShortcuts,
 
     getApiMenuData,
-    handleCurrentChange
-  }
+    handleCurrentChange,
+  },
 };
