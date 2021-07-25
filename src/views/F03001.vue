@@ -79,7 +79,12 @@
       v-model="findAllVisible"
       destroy-on-close
     >
-      <el-form :model="findAllForm" :rules="rules" ref="findAllRef">
+      <el-form
+        :model="findAllForm"
+        :rules="rules"
+        ref="findAllRef"
+        label-width="15%"
+      >
         <el-form-item :label="$t('F03001.userId')" prop="userId">
           <el-input v-model="findAllForm.userId" autocomplete="off"></el-input>
         </el-form-item>
@@ -89,6 +94,7 @@
             :placeholder="$t('option.placeholder')"
             clearable
             @change="setDisable(findAllForm.sortBy1, '1')"
+            style="width: 50%"
           >
             <el-option
               v-for="(opt, idx) in findAllForm.sortByOptions"
@@ -102,6 +108,7 @@
             v-model="findAllForm.sortDirection1"
             :placeholder="$t('option.placeholder')"
             clearable
+            style="width: 50%"
           >
             <el-option
               v-for="(opt, idx) in findAllForm.sortDirectionOptions"
@@ -117,6 +124,7 @@
             :placeholder="$t('option.placeholder')"
             clearable
             @change="setDisable(findAllForm.sortBy2, '2')"
+            style="width: 50%"
           >
             <el-option
               v-for="(opt, idx) in findAllForm.sortByOptions"
@@ -130,6 +138,7 @@
             v-model="findAllForm.sortDirection2"
             :placeholder="$t('option.placeholder')"
             clearable
+            style="width: 50%"
           >
             <el-option
               v-for="(opt, idx) in findAllForm.sortDirectionOptions"
@@ -145,6 +154,7 @@
             :placeholder="$t('option.placeholder')"
             clearable
             @change="setDisable(findAllForm.sortBy3, '3')"
+            style="width: 50%"
           >
             <el-option
               v-for="(opt, idx) in findAllForm.sortByOptions"
@@ -158,6 +168,7 @@
             v-model="findAllForm.sortDirection3"
             :placeholder="$t('option.placeholder')"
             clearable
+            style="width: 50%"
           >
             <el-option
               v-for="(opt, idx) in findAllForm.sortDirectionOptions"
@@ -206,12 +217,7 @@
 
   <div class="addone">
     <el-dialog :title="$t('button.add')" v-model="addVisible" destroy-on-close>
-      <el-form
-        :model="addForm"
-        :rules="rules"
-        ref="addRef"
-        label-position="top"
-      >
+      <el-form :model="addForm" :rules="rules" ref="addRef" label-width="15%">
         <el-form-item :label="$t('F03001.creator')" prop="creator">
           <el-input v-model="addForm.creator" autocomplete="off"></el-input>
         </el-form-item>
@@ -231,6 +237,7 @@
             :placeholder="$t('option.placeholder')"
             :disabled-date="disabledDate"
             :shortcuts="shortcuts"
+            style="width: 100%"
           ></el-date-picker>
         </el-form-item>
         <el-form-item :label="$t('F03001.sharedTo')" prop="sharedTo">
@@ -258,7 +265,7 @@
         :model="modifyForm"
         :rules="rules"
         ref="modifyRef"
-        label-position="top"
+        label-width="15%"
       >
         <el-form-item :label="$t('F03001.title')" prop="title">
           <el-input v-model="modifyForm.title" autocomplete="off"></el-input>
@@ -276,6 +283,7 @@
             :placeholder="$t('option.placeholder')"
             :disabled-date="disabledDate"
             :shortcuts="shortcuts"
+            style="width: 100%"
           ></el-date-picker>
         </el-form-item>
         <el-form-item :label="$t('F03001.sharedTo')" prop="sharedTo">
