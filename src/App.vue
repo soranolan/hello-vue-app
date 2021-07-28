@@ -2,10 +2,9 @@
   <el-container style="height: 100%; border: 1px solid #eee">
     <el-aside width="10%" style="background-color: rgb(238, 241, 246)">
       <el-menu
-        :default-active="activeIndex"
+        :default-active="this.$store.state.activeUri"
         class="el-menu-demo"
         mode="horizontal"
-        @select="handleSelect"
         background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b"
@@ -41,19 +40,9 @@
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
-  setup() {
-    const activeIndex = ref("/");
-    const handleSelect = (key, keyPath) => {
-      console.log(key, keyPath);
-    };
-    return {
-      activeIndex,
-      handleSelect,
-    };
-  },
   methods: {
     setLanguage(locale) {
       localStorage.setItem("language", locale);
