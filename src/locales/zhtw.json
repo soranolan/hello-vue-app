@@ -24,11 +24,18 @@
   },
   "message": {
     "error": "丸子，發生錯誤",
-    "success": "成功"
+    "success": "成功",
+    "isNotSame": "密碼不同",
+    "accountExist": "帳號已存在"
   },
   "date": {
     "tomorrow": "明天",
     "nextweek": "下週"
+  },
+  "user": {
+    "account": "帳號",
+    "password": "密碼",
+    "dpassword": "請再次輸入"
   },
   "Home": {
     "hello": "歡迎來到我的 Vue.js 專案"

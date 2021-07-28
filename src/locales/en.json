@@ -24,11 +24,18 @@
   },
   "message": {
     "error": "Oops, something went wrong",
-    "success": "Success"
+    "success": "Success",
+    "isNotSame": "Password is not the same",
+    "accountExist": "Account exist"
   },
   "date": {
     "tomorrow": "Tomorrow",
     "nextweek": "Next Week"
+  },
+  "user": {
+    "account": "Account",
+    "password": "Password",
+    "dpassword": "Please type it again"
   },
   "Home": {
     "hello": "Welcome to My Vue.js App"
@@ -42,10 +49,10 @@
     "footer": "Just For Pracitce"
   },
   "F01001": {
-    "hello": "Sign in"
+    "hello": "Signin"
   },
   "F01002": {
-    "hello": "Sign iup"
+    "hello": "Signup"
   },
   "F02001": {
     "hello": "This is an about page"
