@@ -4,7 +4,7 @@ import store from "../store";
 import i18n from "../i18n";
 import { ElMessage } from "element-plus";
 
-axios.defaults.baseURL = "http://localhost:8080/api/v1.0.0/todolist";
+axios.defaults.baseURL = process.env.VUE_APP_AXIOS_DEFAULTS_BASEURL;
 
 axios.interceptors.request.use(
   (request) => {
