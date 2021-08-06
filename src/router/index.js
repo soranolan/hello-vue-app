@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
+import store from "../store";
 
 const routes = [
   {
@@ -51,8 +52,8 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   let requireAuth = to.matched.some((value) => value.meta.requireAuth);
-  let currentUser = localStorage.getItem("currentUser");
-  if (requireAuth && (!currentUser || currentUser === {})) {
+  let token = store.state.token;
+  if (requireAuth && (!token || token === "")) {
     next("/F01001");
     return;
   }
