@@ -25,17 +25,33 @@
   "message": {
     "error": "丸子，發生錯誤",
     "success": "成功",
-    "isNotSame": "密碼不同",
-    "accountExist": "帳號已存在"
+    "unauthorized_401": "授權失敗，請重新登入"
+  },
+  "username": {
+    "exist": "帳號已存在",
+    "notExist": "帳號不存在"
+  },
+  "password": {
+    "isNotSame": "兩次輸入的密碼不相同",
+    "incorrect": "密碼不正確"
   },
   "date": {
     "tomorrow": "明天",
     "nextweek": "下週"
   },
   "user": {
-    "account": "帳號",
+    "username": "帳號",
     "password": "密碼",
     "dpassword": "請再次輸入"
+  },
+  "signin": {
+    "success": "登入成功",
+    "failed": "登入失敗"
+  },
+  "signout": {
+    "hello": "確定要登出嗎？",
+    "success": "登出成功",
+    "canceled": "已放棄登出"
   },
   "Home": {
     "hello": "歡迎來到我的 Vue.js 專案"
@@ -46,6 +62,7 @@
     "F03001": "功能",
     "F01001": "登入",
     "F01002": "註冊",
+    "F01003": "登出",
     "footer": "練習用"
   },
   "F01001": {

@@ -25,17 +25,33 @@
   "message": {
     "error": "Oops, something went wrong",
     "success": "Success",
+    "unauthorized_401": "Unauthorized, please signin again"
+  },
+  "username": {
+    "exist": "Username exist",
+    "notExist": "Username not exist"
+  },
+  "password": {
     "isNotSame": "Password is not the same",
-    "accountExist": "Account exist"
+    "incorrect": "Password incorrect"
   },
   "date": {
     "tomorrow": "Tomorrow",
     "nextweek": "Next Week"
   },
   "user": {
-    "account": "Account",
+    "username": "Username",
     "password": "Password",
     "dpassword": "Please type it again"
+  },
+  "signin": {
+    "success": "Sign in success",
+    "failed": "Sign in failed"
+  },
+  "signout": {
+    "hello": "Are you sure you want to sign out?",
+    "success": "Sign out success",
+    "canceled": "Canceled sign out"
   },
   "Home": {
     "hello": "Welcome to My Vue.js App"
@@ -44,15 +60,16 @@
     "index": "Home",
     "F02001": "About",
     "F03001": "ApiMenu",
-    "F01001": "Signin",
-    "F01002": "Signup",
+    "F01001": "Sign in",
+    "F01002": "Sign up",
+    "F01003": "Sign out",
     "footer": "Just For Pracitce"
   },
   "F01001": {
-    "hello": "Signin"
+    "hello": "Sign in"
   },
   "F01002": {
-    "hello": "Signup"
+    "hello": "Sign up"
   },
   "F02001": {
     "hello": "This is an about page"
