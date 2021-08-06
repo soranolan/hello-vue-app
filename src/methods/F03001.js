@@ -1,6 +1,5 @@
 import axios from "axios";
 import moment from "moment";
-import { ElLoading, ElMessage } from "element-plus";
 
 // validation block start =====================================================
 function validFindAll(findAllRef) {
@@ -46,7 +45,7 @@ function validModifyDocument(modifyRef) {
 // button block start =========================================================
 function findAllByUserId() {
   let superThis = this;
-  let loadingInstance = ElLoading.service(this.ElLoadingConfig);
+  let loadingInstance = superThis.$loading(superThis.ElLoadingConfig);
 
   axios
     .get(superThis.findAllForm.userId + "&" + superThis.buildQueryString())
@@ -55,7 +54,7 @@ function findAllByUserId() {
     })
     .catch(function (error) {
       console.log(error);
-      ElMessage.error(superThis.$t("message.error"));
+      superThis.$message.error(superThis.$t("message.error"));
     })
     .finally(function () {
       loadingInstance.close();
@@ -65,7 +64,7 @@ function findAllByUserId() {
 function findOneByDocumentId() {
   let superThis = this;
   let monoData = [];
-  let loadingInstance = ElLoading.service(this.ElLoadingConfig);
+  let loadingInstance = superThis.$loading(superThis.ElLoadingConfig);
 
   axios
     .get(superThis.findOneForm.documentId)
@@ -75,7 +74,7 @@ function findOneByDocumentId() {
     })
     .catch(function (error) {
       console.log(error);
-      ElMessage.error(superThis.$t("message.error"));
+      superThis.$message.error(superThis.$t("message.error"));
     })
     .finally(function () {
       loadingInstance.close();
@@ -84,7 +83,7 @@ function findOneByDocumentId() {
 
 function addDocument() {
   let superThis = this;
-  let loadingInstance = ElLoading.service(this.ElLoadingConfig);
+  let loadingInstance = superThis.$loading(superThis.ElLoadingConfig);
 
   axios
     .post("/", {
@@ -95,7 +94,7 @@ function addDocument() {
       sharedTo: superThis.addForm.sharedTo.split(","),
     })
     .then(function (response) {
-      ElMessage.success(superThis.$t("message.success"));
+      superThis.$message.success(superThis.$t("message.success"));
       return response.data.id;
     })
     .then(function (id) {
@@ -104,7 +103,7 @@ function addDocument() {
     })
     .catch(function (error) {
       console.log(error);
-      ElMessage.error(superThis.$t("message.error"));
+      superThis.$message.error(superThis.$t("message.error"));
     })
     .finally(function () {
       loadingInstance.close();
@@ -119,7 +118,7 @@ function beforeModify() {
     return;
   }
 
-  let loadingInstance = ElLoading.service(this.ElLoadingConfig);
+  let loadingInstance = superThis.$loading(superThis.ElLoadingConfig);
   axios
     .get(id)
     .then(function (response) {
@@ -128,7 +127,7 @@ function beforeModify() {
     })
     .catch(function (error) {
       console.log(error);
-      ElMessage.error(superThis.$t("message.error"));
+      superThis.$message.error(superThis.$t("message.error"));
     })
     .finally(function () {
       loadingInstance.close();
@@ -137,7 +136,7 @@ function beforeModify() {
 
 function modifyDocument() {
   let superThis = this;
-  let loadingInstance = ElLoading.service(this.ElLoadingConfig);
+  let loadingInstance = superThis.$loading(superThis.ElLoadingConfig);
   let modifyShared = superThis.modifyForm.sharedTo;
 
   axios
@@ -152,7 +151,7 @@ function modifyDocument() {
           : modifyShared,
     })
     .then(function (response) {
-      ElMessage.success(superThis.$t("message.success"));
+      superThis.$message.success(superThis.$t("message.success"));
       return response.data.id;
     })
     .then(function (id) {
@@ -161,7 +160,7 @@ function modifyDocument() {
     })
     .catch(function (error) {
       console.log(error);
-      ElMessage.error(superThis.$t("message.error"));
+      superThis.$message.error(superThis.$t("message.error"));
     })
     .finally(function () {
       loadingInstance.close();
@@ -180,12 +179,12 @@ function beforeRemove() {
 
 function removeDocument() {
   let superThis = this;
-  let loadingInstance = ElLoading.service(this.ElLoadingConfig);
+  let loadingInstance = superThis.$loading(superThis.ElLoadingConfig);
 
   axios
     .delete(superThis.targetRow.id)
     .then(function () {
-      ElMessage.success(superThis.$t("message.success"));
+      superThis.$message.success(superThis.$t("message.success"));
       return superThis.targetRow.creator;
     })
     .then(function (id) {
@@ -194,7 +193,7 @@ function removeDocument() {
     })
     .catch(function (error) {
       console.log(error);
-      ElMessage.error(superThis.$t("message.error"));
+      superThis.$message.error(superThis.$t("message.error"));
     })
     .finally(function () {
       loadingInstance.close();

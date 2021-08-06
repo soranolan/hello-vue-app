@@ -7,8 +7,8 @@
       ref="signupRef"
       label-width="15%"
     >
-      <el-form-item :label="$t('user.account')" prop="account">
-        <el-input v-model="signupForm.account"></el-input>
+      <el-form-item :label="$t('user.username')" prop="username">
+        <el-input v-model="signupForm.username"></el-input>
       </el-form-item>
       <el-form-item :label="$t('user.password')" prop="password">
         <el-input v-model="signupForm.password" show-password></el-input>
@@ -24,15 +24,13 @@
 </template>
 
 <script>
-import bcrypt from "bcryptjs";
 import axios from "axios";
-import { ElLoading, ElMessage } from "element-plus";
 
 export default {
   data() {
     return {
       signupForm: {
-        account: "",
+        username: "",
         password: "",
         dpassword: "",
       },
@@ -40,7 +38,7 @@ export default {
         target: ".signup",
       },
       rules: {
-        account: [
+        username: [
           {
             required: true,
             trigger: "blur",
@@ -80,68 +78,63 @@ export default {
         }
 
         let superThis = this;
-        let password = this.signupForm.password;
-        let dpassword = this.signupForm.dpassword;
+        let password = superThis.signupForm.password;
+        let dpassword = superThis.signupForm.dpassword;
         let isNotSame = password !== dpassword;
         if (isNotSame) {
-          ElMessage.error(superThis.$t("message.isNotSame"));
+          superThis.$message.error(superThis.$t("password.isNotSame"));
           return;
         }
 
-        this.encrypt(password);
+        this.check(password);
       });
     },
-    encrypt(password) {
+    check(password) {
       let superThis = this;
-
-      bcrypt.hash(password, 10, function (err, hash) {
-        if (err) {
-          console.log(err);
-          console.log(hash);
-          ElMessage.error(superThis.$t("message.error"));
-          return;
-        }
-        superThis.check(hash);
-      });
-    },
-    check(hash) {
-      let superThis = this;
-      let account = this.signupForm.account;
-      let loadingInstance = ElLoading.service(this.ElLoadingConfig);
+      let username = superThis.signupForm.username;
+      let loadingInstance = superThis.$loading(superThis.ElLoadingConfig);
 
       axios
-        .get("/signup/check/" + account)
+        .get("/signup/" + username)
         .then(function (response) {
           if (typeof response.data.id !== "undefined") {
-            ElMessage.error(superThis.$t("message.accountExist"));
+            superThis.$message.error(superThis.$t("username.exist"));
+            return false;
+          }
+          return true;
+        })
+        .then(function (valid) {
+          if (!valid) {
             return;
           }
-          superThis.signup(account, hash);
+          superThis.signup(username, password);
         })
         .catch(function (error) {
           console.log(error);
-          ElMessage.error(superThis.$t("message.error"));
+          superThis.$message.error(superThis.$t("message.error"));
         })
         .finally(function () {
           loadingInstance.close();
         });
     },
-    signup(account, hash) {
+    signup(username, password) {
       let superThis = this;
 
       axios
         .post("/signup", {
-          account: account,
-          passwordHash: hash,
+          username: username,
+          password: password,
+          enabled: true,
+          roles: [0],
         })
         .then(function () {
-          ElMessage.success(superThis.$t("message.success"));
+          superThis.$message.success(superThis.$t("message.success"));
           superThis.$router.push("F01001");
           superThis.$store.commit("setActiveUri", "/F01001");
         })
         .catch(function (error) {
           console.log(error);
-          ElMessage.error(superThis.$t("message.error"));
+          superThis.$message.error(superThis.$t("message.error"));
         });
     },
   },
