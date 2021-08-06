@@ -16,6 +16,9 @@
           <el-menu-item index="/F03001">{{ $t("App.F03001") }}</el-menu-item>
           <el-menu-item index="/F01001">{{ $t("App.F01001") }}</el-menu-item>
           <el-menu-item index="/F01002">{{ $t("App.F01002") }}</el-menu-item>
+          <el-menu-item v-if="$store.state.token" @click="signout">{{
+            $t("App.F01003")
+          }}</el-menu-item>
         </el-menu-item-group>
       </el-menu>
     </el-aside>
@@ -46,6 +49,24 @@ export default defineComponent({
   methods: {
     setLanguage(locale) {
       localStorage.setItem("language", locale);
+    },
+    signout() {
+      let superThis = this;
+      superThis
+        .$confirm(superThis.$t("signout.hello"), {
+          confirmButtonText: superThis.$t("button.confirm"),
+          cancelButtonText: superThis.$t("button.cancel"),
+          type: "warning",
+        })
+        .then(() => {
+          superThis.$router.push("/F01001");
+          superThis.$store.commit("setActiveUri", "/F01001");
+          superThis.$store.commit("setToken", "");
+          superThis.$message.success(superThis.$t("signout.success"));
+        })
+        .catch(() => {
+          superThis.$message.info(superThis.$t("signout.canceled"));
+        });
     },
   },
 });
