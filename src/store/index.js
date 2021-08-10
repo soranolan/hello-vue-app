@@ -5,6 +5,8 @@ export default createStore({
   state: {
     activeUri: ref("/"),
     token: "",
+    countdown: 900,
+    countdowntimer: null,
   },
   mutations: {
     setActiveUri(state, uri) {
@@ -12,6 +14,20 @@ export default createStore({
     },
     setToken(state, token) {
       state.token = token;
+    },
+    resetCountdown(state) {
+      state.countdown = 900;
+    },
+    startCountdown(state) {
+      state.countdowntimer = setInterval(() => {
+        state.countdown -= 1;
+        if (!state.countdown) {
+          clearInterval(state.countdowntimer);
+        }
+      }, 1000);
+    },
+    stopCountdown(state) {
+      clearInterval(state.countdowntimer);
     },
   },
   actions: {},

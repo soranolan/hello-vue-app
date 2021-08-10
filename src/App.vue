@@ -19,6 +19,9 @@
           <el-menu-item v-if="$store.state.token" @click="signout">{{
             $t("App.F01003")
           }}</el-menu-item>
+          <el-menu-item v-if="$store.state.token">{{
+            formatedCountdown
+          }}</el-menu-item>
         </el-menu-item-group>
       </el-menu>
     </el-aside>
@@ -44,8 +47,18 @@
 
 <script>
 import { defineComponent } from "vue";
+import moment from "moment";
 
 export default defineComponent({
+  computed: {
+    formatedCountdown() {
+      let countdown = this.$store.state.countdown;
+      if (countdown === 0) {
+        this.forceSignout();
+      }
+      return moment.duration(countdown, "seconds").format("m:ss");
+    },
+  },
   methods: {
     setLanguage(locale) {
       localStorage.setItem("language", locale);
@@ -59,14 +72,19 @@ export default defineComponent({
           type: "warning",
         })
         .then(() => {
-          superThis.$router.push("/F01001");
-          superThis.$store.commit("setActiveUri", "/F01001");
-          superThis.$store.commit("setToken", "");
+          superThis.forceSignout();
           superThis.$message.success(superThis.$t("signout.success"));
         })
         .catch(() => {
           superThis.$message.info(superThis.$t("signout.canceled"));
         });
+    },
+    forceSignout() {
+      this.$router.push("/F01001");
+      this.$store.commit("setActiveUri", "/F01001");
+      this.$store.commit("setToken", "");
+      this.$store.commit("stopCountdown");
+      this.$store.commit("resetCountdown");
     },
   },
 });

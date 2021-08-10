@@ -81,6 +81,7 @@ export default {
             superThis.$router.push("F02001");
             superThis.$store.commit("setActiveUri", "/F02001");
             superThis.$store.commit("setToken", response.data.token);
+            superThis.$store.commit("startCountdown");
             superThis.$message.success(superThis.$t("signin.success"));
             return;
           }

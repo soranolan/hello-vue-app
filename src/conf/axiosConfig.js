@@ -26,6 +26,8 @@ axios.interceptors.response.use(
       router.push("F01001");
       store.commit("setActiveUri", "/F01001");
       store.commit("setToken", "");
+      store.commit("stopCountdown");
+      store.commit("resetCountdown");
     }
     return error;
   }
