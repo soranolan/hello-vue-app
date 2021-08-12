@@ -77,6 +77,10 @@ export default {
           password: superThis.signinForm.password,
         })
         .then(function (response) {
+          if (response.data.length == 0) {
+            superThis.$message.error(superThis.$t("username.notExist"));
+            return;
+          }
           if (response.data.isMatch) {
             superThis.$router.push("F02001");
             superThis.$store.commit("setActiveUri", "/F02001");
