@@ -14,8 +14,12 @@
           <el-menu-item index="/">{{ $t("App.index") }}</el-menu-item>
           <el-menu-item index="/F02001">{{ $t("App.F02001") }}</el-menu-item>
           <el-menu-item index="/F03001">{{ $t("App.F03001") }}</el-menu-item>
-          <el-menu-item index="/F01001">{{ $t("App.F01001") }}</el-menu-item>
-          <el-menu-item index="/F01002">{{ $t("App.F01002") }}</el-menu-item>
+          <el-menu-item v-if="!$store.state.token" index="/F01001">{{
+            $t("App.F01001")
+          }}</el-menu-item>
+          <el-menu-item v-if="!$store.state.token" index="/F01002">{{
+            $t("App.F01002")
+          }}</el-menu-item>
           <el-menu-item v-if="$store.state.token" @click="signout">{{
             $t("App.F01003")
           }}</el-menu-item>
