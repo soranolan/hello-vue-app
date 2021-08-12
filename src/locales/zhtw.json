@@ -46,7 +46,7 @@
   },
   "signin": {
     "success": "登入成功",
-    "failed": "登入失敗"
+    "failed": "登入失敗，請檢查您的帳號或是密碼"
   },
   "signout": {
     "hello": "確定要登出嗎？",

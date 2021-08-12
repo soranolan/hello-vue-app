@@ -46,7 +46,7 @@
   },
   "signin": {
     "success": "Sign in success",
-    "failed": "Sign in failed"
+    "failed": "Sign in failed, please check your username and password"
   },
   "signout": {
     "hello": "Are you sure you want to sign out?",
