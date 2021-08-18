@@ -78,7 +78,7 @@ export default {
         })
         .then(function (response) {
           if (response.data.length == 0) {
-            superThis.$message.error(superThis.$t("username.notExist"));
+            superThis.$message.error(superThis.$t("username.notEA"));
             return;
           }
           if (response.data.isMatch) {
