@@ -16,6 +16,9 @@
       <el-form-item :label="$t('user.dpassword')" prop="dpassword">
         <el-input v-model="signupForm.dpassword" show-password></el-input>
       </el-form-item>
+      <el-form-item :label="$t('user.email')" prop="email">
+        <el-input v-model="signupForm.email"></el-input>
+      </el-form-item>
     </el-form>
     <el-button type="primary" @click="valid">{{
       $t("button.confirm")
@@ -33,6 +36,7 @@ export default {
         username: "",
         password: "",
         dpassword: "",
+        email: "",
       },
       ElLoadingConfig: {
         target: ".signup",
@@ -67,6 +71,21 @@ export default {
           },
           { max: 24, trigger: "blur", message: this.$t("rules.max24") },
         ],
+        email: [
+          {
+            required: true,
+            trigger: "blur",
+            message: this.$t("rules.required"),
+          },
+          { max: 120, trigger: "blur", message: this.$t("rules.max120") },
+          {
+            pattern: new RegExp(
+              /^(([^<>()\\[\]\\.,;:\s@"]+(\.[^<>()\\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/
+            ),
+            trigger: "blur",
+            message: this.$t("rules.email"),
+          },
+        ],
       },
     };
   },
@@ -86,13 +105,12 @@ export default {
           return;
         }
 
-        this.check(password);
+        this.check();
       });
     },
-    check(password) {
+    check() {
       let superThis = this;
       let username = superThis.signupForm.username;
-      let loadingInstance = superThis.$loading(superThis.ElLoadingConfig);
 
       axios
         .get("/signup/" + username)
@@ -107,24 +125,22 @@ export default {
           if (!valid) {
             return;
           }
-          superThis.signup(username, password);
+          superThis.signup();
         })
         .catch(function (error) {
           console.log(error);
           superThis.$message.error(superThis.$t("message.error"));
-        })
-        .finally(function () {
-          loadingInstance.close();
         });
     },
-    signup(username, password) {
+    signup() {
       let superThis = this;
+      let loadingInstance = superThis.$loading(superThis.ElLoadingConfig);
 
       axios
         .post("/signup", {
-          username: username,
-          password: password,
-          enabled: true,
+          username: superThis.signupForm.username,
+          password: superThis.signupForm.password,
+          email: superThis.signupForm.email,
           roles: [0],
         })
         .then(function () {
@@ -135,6 +151,9 @@ export default {
         .catch(function (error) {
           console.log(error);
           superThis.$message.error(superThis.$t("message.error"));
+        })
+        .finally(function () {
+          loadingInstance.close();
         });
     },
   },
