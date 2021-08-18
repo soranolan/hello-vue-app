@@ -43,6 +43,22 @@ const routes = [
       requireAuth: false,
     },
   },
+  {
+    path: "/F01004/:token",
+    name: "Activate Account",
+    component: () => import("../views/F01004.vue"),
+    meta: {
+      requireAuth: false,
+    },
+  },
+  {
+    path: "/F01005",
+    name: "Resend Activate link",
+    component: () => import("../views/F01005.vue"),
+    meta: {
+      requireAuth: false,
+    },
+  },
 ];
 
 const router = createRouter({
