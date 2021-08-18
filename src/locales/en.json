@@ -20,7 +20,8 @@
     "max5": "cannot be longer than 5 characters",
     "max24": "cannot be longer than 24 characters",
     "max120": "cannot be longer than 120 characters",
-    "alphanumeric": "letters and/or numbers only"
+    "alphanumeric": "letters and/or numbers only",
+    "email": "invalid email address"
   },
   "message": {
     "error": "Oops, something went wrong",
@@ -29,6 +30,7 @@
   },
   "username": {
     "exist": "Username exist",
+    "notEA": "Username not exist or not activated",
     "notExist": "Username not exist"
   },
   "password": {
@@ -42,7 +44,8 @@
   "user": {
     "username": "Username",
     "password": "Password",
-    "dpassword": "Please type it again"
+    "dpassword": "Please type it again",
+    "email": "EMail"
   },
   "signin": {
     "success": "Sign in success",
@@ -63,6 +66,8 @@
     "F01001": "Sign in",
     "F01002": "Sign up",
     "F01003": "Sign out",
+    "F01004": "Activate Account",
+    "F01005": "Resend Activate link",
     "footer": "Just For Pracitce"
   },
   "F01001": {
@@ -70,6 +75,15 @@
   },
   "F01002": {
     "hello": "Sign up"
+  },
+  "F01004": {
+    "hello": "Activating your account",
+    "success": "Activate success",
+    "failed": "Unable to activate account, please try resend activation",
+    "activated": "Account activated"
+  },
+  "F01005": {
+    "hello": "Resend activate link"
   },
   "F02001": {
     "hello": "This is an about page"
