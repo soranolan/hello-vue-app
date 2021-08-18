@@ -1,6 +1,6 @@
 <template>
   <el-container style="height: 100%; border: 1px solid #eee">
-    <el-aside width="10%" style="background-color: rgb(238, 241, 246)">
+    <el-aside width="11%" style="background-color: rgb(238, 241, 246)">
       <el-menu
         :default-active="this.$store.state.activeUri"
         class="el-menu-demo"
@@ -11,19 +11,39 @@
         :router="true"
       >
         <el-menu-item-group>
-          <el-menu-item index="/">{{ $t("App.index") }}</el-menu-item>
-          <el-menu-item index="/F02001">{{ $t("App.F02001") }}</el-menu-item>
-          <el-menu-item index="/F03001">{{ $t("App.F03001") }}</el-menu-item>
-          <el-menu-item v-if="!$store.state.token" index="/F01001">{{
-            $t("App.F01001")
+          <el-menu-item v-if="!$route.params.token" index="/">{{
+            $t("App.index")
           }}</el-menu-item>
-          <el-menu-item v-if="!$store.state.token" index="/F01002">{{
-            $t("App.F01002")
+          <el-menu-item v-if="!$route.params.token" index="/F02001">{{
+            $t("App.F02001")
           }}</el-menu-item>
-          <el-menu-item v-if="$store.state.token" @click="signout">{{
-            $t("App.F01003")
+          <el-menu-item v-if="!$route.params.token" index="/F03001">{{
+            $t("App.F03001")
           }}</el-menu-item>
-          <el-menu-item v-if="$store.state.token">{{
+          <el-menu-item
+            v-if="!$store.state.token && !$route.params.token"
+            index="/F01001"
+            >{{ $t("App.F01001") }}</el-menu-item
+          >
+          <el-menu-item
+            v-if="!$store.state.token && !$route.params.token"
+            index="/F01002"
+            >{{ $t("App.F01002") }}</el-menu-item
+          >
+          <el-menu-item
+            v-if="$store.state.token && !$route.params.token"
+            @click="signout"
+            >{{ $t("App.F01003") }}</el-menu-item
+          >
+          <el-menu-item v-if="$route.params.token">{{
+            $t("App.F01004")
+          }}</el-menu-item>
+          <el-menu-item
+            v-if="!$store.state.token && !$route.params.token"
+            index="/F01005"
+            >{{ $t("App.F01005") }}</el-menu-item
+          >
+          <el-menu-item v-if="$store.state.token && !$route.params.token">{{
             formatedCountdown
           }}</el-menu-item>
         </el-menu-item-group>
