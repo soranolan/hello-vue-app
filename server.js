@@ -12,14 +12,15 @@ const app = express();
 app.use(staticMiddleware);
 app.use(
   history({
-    verbose: true,
     disableDotRule: true,
   })
 );
 app.use(staticMiddleware);
 
+/*
 app.get("/", function (req, res) {
   res.render(path.join(__dirname + "dist/index.html"));
 });
+*/
 
 app.listen(port);
