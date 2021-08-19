@@ -8,8 +8,8 @@ const app = express();
 
 app.use(serveStatic(path.join(__dirname, "dist")));
 app.use(
-  "/",
   history({
+    index: "/",
     verbose: true,
     disableDotRule: true,
   })
