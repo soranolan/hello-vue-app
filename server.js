@@ -1,24 +1,17 @@
-var express = require("express");
-var history = require("connect-history-api-fallback");
-var app = express();
+const express = require("express");
+const serveStatic = require("serve-static");
+const history = require("connect-history-api-fallback");
+const path = require("path");
 
-// Middleware for serving '/dist' directory
-const staticFileMiddleware = express.static("dist");
+const port = process.env.PORT || 3000;
+const app = express();
 
-// 1st call for unredirected requests
-app.use(staticFileMiddleware);
+app.use(serveStatic(path.join(__dirname, "/dist")));
+app.use(history());
+app.use(serveStatic(path.join(__dirname, "/dist")));
 
-// Support history api
-// this is the HTTP request path not the path on disk
-app.use(
-  history({
-    index: "/index.html",
-  })
-);
-
-// 2nd call for redirected requests
-app.use(staticFileMiddleware);
-
-app.listen(3000, function () {
-  console.log("Example app listening on port 3000!");
+app.get("/", function (req, res) {
+  res.render(path.join(__dirname + "/dist/index.html"));
 });
+
+app.listen(port);
