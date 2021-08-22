@@ -234,6 +234,9 @@ function buildQueryString() {
 
 function dateFormat(row, column) {
   let value = row[column.property];
+  if (value === null) {
+    return value;
+  }
   let formatter = moment(new Date(value));
   if (formatter.isValid()) {
     return formatter.format("YYYY-MM-DD HH:mm:ss");
